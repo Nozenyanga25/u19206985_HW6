@@ -1,0 +1,77 @@
+﻿@model PagedList.IPagedList<u19206985_HW6.Models.order>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Status
+        </th>
+        <th>
+            Order Date
+        </th>
+        <th>
+            Required Date
+        </th>
+        <th>
+            Shipped Date
+        </th>
+        <th>
+            Customer Name
+        </th>
+        <th>
+            Staff Name
+        </th>
+        <th>
+            Store Name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.order_status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.order_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.required_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shipped_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer.first_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.staff.first_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.store.store_name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.order_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.order_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.order_id })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+new { page, currentFilter = ViewBag.CurrentFilter }))
